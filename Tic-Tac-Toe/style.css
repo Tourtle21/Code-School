@@ -1,0 +1,32 @@
+h1 {
+	margin-bottom: 100px;
+	align-self: flex-start;
+}
+body {
+	background: blue;
+	font-family: sans-serif;
+	text-align: center;
+}
+table {
+	margin: auto;
+	border: 2px solid #000;
+	border-spacing: 0;
+	align-self: flex-end;
+}
+td {
+	background: lightblue;
+	border: 1px solid #000;
+	font-size: 100px;
+	height: 120px;
+	text-align: center;
+	width: 120px;
+	color: lightblue;
+}
+td:hover {
+	background: orange;
+}
+#winner {
+	text-align: center;
+	margin-top: 100px;
+}
+
