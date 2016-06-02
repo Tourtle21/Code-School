@@ -1,0 +1,38 @@
+h1 {
+	color: white;
+	margin-bottom: 100px;
+	align-self: flex-start;
+}
+body {
+	background: blue;
+	margin: auto;
+	display: block;
+	font-family: sans-serif;
+	text-align: center;
+}
+#board {
+	margin-left: 450px;
+}
+.row {
+	overflow: auto;
+}
+.tile {
+	float: left;
+	margin: 2px;
+	background: lightblue;
+	font-size: 30px;
+	height: 120px;
+	text-align: center;
+	width: 120px;
+	color: orange;
+}
+.tile-2 {
+	background: rgb(204, 235, 255);
+}
+.tile-4 {
+	background: rgb(128, 204, 255);
+}
+.tile-8 {
+	background: rgb(26, 163, 255);
+}
+
