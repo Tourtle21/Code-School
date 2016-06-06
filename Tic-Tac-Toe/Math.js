@@ -11,7 +11,10 @@ $(document).ready(function() {
 		location.reload();
 	};
 	var computer = function() {
-		console.log(available)
+		var close = checkClose();
+		player = 1;
+		var badClose = checkClose();
+		console.log(close, badClose)
 		if (available == []) {
 			var $button = $("<button></button>");
 			$("body").append($button)
@@ -19,17 +22,68 @@ $(document).ready(function() {
 			$button.click(reload);				
 			buttons = false;
 		}
+		if (close !== false && $("." + close).text() == "") {
+			var $span = $("<span></span>").text("O");
+			$span.hide().appendTo($("." + close)).fadeIn();
+			$("." + close).css("background-color", "orange");
+			index = available.indexOf(close);
+			available.splice(index, 1);
+			board[close%3][Math.floor(close/3)] = 2;
+		}
+		else if (badClose !== false && $("." + badClose).text() == "") {
+			var $span = $("<span></span>").text("O");
+			$span.hide().appendTo($("." + badClose)).fadeIn();
+			$("." + badClose).css("background-color", "orange");
+			index = available.indexOf(badClose);
+			available.splice(index, 1);
+			board[badClose%3][Math.floor(badClose/3)] = 2;
+		}
 		else {
-			row = Math.floor(Math.random() * 2);
-			col = Math.floor(Math.random() * 2);
-			number = available[Math.floor(Math.random() * available.length)]
-			if ($("." + number).text() == "") {
-				var $span = $("<span></span>").text("O");
-				$span.hide().appendTo($("." + number)).fadeIn();
-				$("." + number).css("background-color", "orange");
-			}
+			var number = available[Math.floor(Math.random() * available.length)]
+			var $span = $("<span></span>").text("O");
+			$span.hide().appendTo($("." + number)).fadeIn();
+			$("." + number).css("background-color", "orange");
+			index = available.indexOf(number);
+			available.splice(index, 1);
+			board[number%3][Math.floor(number/3)] = 2;
 		}
 
+	}
+	var checkClose = function () {
+		var list = [checkCloseSet(player, 0, 0, 0, 1, 0, 2),
+		checkCloseSet(player, 1, 0, 1, 1, 1, 2),
+		checkCloseSet(player, 2, 0, 2, 1, 2, 2),
+		checkCloseSet(player, 0, 0, 1, 0, 2, 0),
+		checkCloseSet(player, 0, 1, 1, 1, 2, 1),
+		checkCloseSet(player, 0, 2, 1, 2, 2, 2),
+		checkCloseSet(player, 0, 0, 1, 1, 2, 2),
+		checkCloseSet(player, 0, 2, 1, 1, 2, 0),]
+		for (var i = list.length - 1; i >= 0; i--) {
+			if (list[i] != false) {
+				return list[i];
+			}
+		};
+		return false;
+		
+		
+	}
+	var checkCloseSet = function(player, i1, j1, i2, j2, i3, j3) {
+		var cell1 = board[i1][j1]
+		var cell2 = board[i2][j2]
+		var cell3 = board[i3][j3]
+		if (cell1 == player && cell2 == player)  {
+			return (i3 + (j3 * 3));
+		}
+		if (cell1 == player && cell3 == player) {
+			return (i2 + (j2 * 3));
+		}
+		if (cell2 == player && cell3 == player) {
+			console.log((i1 + (j1 * 3)));
+			return ((i1 + (j1 * 3)));
+		}
+		else {
+			return false;
+		}
 	}
 	var checkWinningSet= function(player, i1, j1, i2, j2, i3, j3) {
 		var cell1 = board[i1][j1]
@@ -84,7 +138,6 @@ $(document).ready(function() {
 					board[row][col] = 1;
 					index = available.indexOf(row + (col * 3))
 					available.splice(index, 1)
-					console.log(available)
 					var $span = $("<span></span>").text("X");
 					$span.hide().appendTo($(this)).fadeIn();
 					$(this).css("background-color", "orange");
@@ -93,7 +146,8 @@ $(document).ready(function() {
 					player = 2;
 				}
 				if (computerOn) {
-					computer()
+					computer();
+					checkWinner();
 					player = 1;
 				}
 				if (turns == 9 && !gameOver) {
@@ -116,7 +170,6 @@ $(document).ready(function() {
 	};
 	document.addEventListener("keydown", function(e) {
 		if (e.which == 67) {
-			console.log("worked")
 			computerOn = true;
 		}
 	});

@@ -1,6 +1,7 @@
 $(document).ready(function() {
 	var size = 4;
 	var board = {};
+	board = {"2-1": 2048, "3-1": 1024, "1-3": 512, "2-3": 256, "0-2": 128, "1-2": 64, "1-1": 32, "0-0": 16, "0-1": 8, "1-0": 4}
 	var tileKey = function(col, row) {
 		return "" + col + "-" + row;
 	};
@@ -50,6 +51,12 @@ $(document).ready(function() {
 			number = 2;
 		}
 		board[key] = number;
+	}
+	var newGame = function() {
+		board = {};
+		addRandomTile();
+		addRandomTile();
+		refreshBoard();
 	}
 	createBoard();
 	addRandomTile();
