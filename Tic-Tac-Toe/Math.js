@@ -12,7 +12,6 @@ $(document).ready(function() {
 	};
 	var computer = function() {
 		if (board[1][1] == 1 && turns == 1) {
-			console.log("center")
 			var spaces = [0, 2, 6, 8]
 			var number = spaces[Math.floor(Math.random() * spaces.length)]
 			var $span = $("<span></span>").text("O");
@@ -23,7 +22,6 @@ $(document).ready(function() {
 			board[number%3][Math.floor(number/3)] = 2;
 		}
 		else if ((board[0][0] == 1 || board[2][0] == 1 || board[0][2] == 1 || board[2][2] == 1) && turns ==1) {
-			console.log("corner")
 			var spaces = [1, 3, 5, 7]
 			var number = spaces[Math.floor(Math.random() * spaces.length)]
 			var $span = $("<span></span>").text("O");
@@ -196,22 +194,19 @@ $(document).ready(function() {
 					$("body").append($button)
 					$button.text("Play Again");
 					$button.click(reload);
+				}
 			}
-		};
+		})
 
-
-
-	});
-
-
-	};
-	document.addEventListener("keydown", function(e) {
-		if (e.which == 67) {
-			computerOn = true;
-		}
-	});
-	setTimeout(start, 1000)
+	}
+	function run() {
+		$("#main").hide();
+		computerOn = true;
+		start();
+	}
+	
 	function start() {
+			$("#main").hide();
 			var $table = $("<table></table>");
 			$("body").append($table);
 			$("#winner").text("It is player 1's turn")
@@ -224,7 +219,15 @@ $(document).ready(function() {
 					$tr.append($td);
 					$td.addClass(i + (j*3) + "");
 					setCellClickHandler($td, i, j);
-				}
 			}
 		}
+	}
+	$(".friend").click(function() {
+		start();
+	});
+	$(".computer").click(function() {
+		run();
+	});
+
 });
+

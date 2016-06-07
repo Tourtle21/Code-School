@@ -31,4 +31,19 @@ td:hover {
 	margin-top: 100px;
 	color: white;
 }
-
+#main {
+	margin:0 auto;
+	height: 400px;
+	width: 200px;
+	background: orange;
+}
+.button {
+	background: lightblue;
+	color: blue;
+	font-size: 15px;
+	height: 50px;
+	width: 100px;
+	margin-top: 90px;
+	margin-right: 50px;
+	margin-left: 50px;
+}
