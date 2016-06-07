@@ -11,36 +11,10 @@ $(document).ready(function() {
 		location.reload();
 	};
 	var computer = function() {
-		var close = checkClose();
-		player = 1;
-		var badClose = checkClose();
-		player = 2;
-		console.log(close, badClose)
-		if (available == []) {
-			var $button = $("<button></button>");
-			$("body").append($button)
-			$button.text("Play Again");
-			$button.click(reload);
-			buttons = false;
-		}
-		if (close !== false && $("." + close).text() == "") {
-			var $span = $("<span></span>").text("O");
-			$span.hide().appendTo($("." + close)).fadeIn();
-			$("." + close).css("background-color", "orange");
-			index = available.indexOf(close);
-			available.splice(index, 1);
-			board[close%3][Math.floor(close/3)] = 2;
-		}
-		else if (badClose !== false && $("." + badClose).text() == "") {
-			var $span = $("<span></span>").text("O");
-			$span.hide().appendTo($("." + badClose)).fadeIn();
-			$("." + badClose).css("background-color", "orange");
-			index = available.indexOf(badClose);
-			available.splice(index, 1);
-			board[badClose%3][Math.floor(badClose/3)] = 2;
-		}
-		else {
-			var number = available[Math.floor(Math.random() * available.length)]
+		if (board[1][1] == 1 && turns == 1) {
+			console.log("center")
+			var spaces = [0, 2, 6, 8]
+			var number = spaces[Math.floor(Math.random() * spaces.length)]
 			var $span = $("<span></span>").text("O");
 			$span.hide().appendTo($("." + number)).fadeIn();
 			$("." + number).css("background-color", "orange");
@@ -48,7 +22,65 @@ $(document).ready(function() {
 			available.splice(index, 1);
 			board[number%3][Math.floor(number/3)] = 2;
 		}
-		checkWinner();
+		else if ((board[0][0] == 1 || board[2][0] == 1 || board[0][2] == 1 || board[2][2] == 1) && turns ==1) {
+			console.log("corner")
+			var spaces = [1, 3, 5, 7]
+			var number = spaces[Math.floor(Math.random() * spaces.length)]
+			var $span = $("<span></span>").text("O");
+			$span.hide().appendTo($("." + number)).fadeIn();
+			$("." + number).css("background-color", "orange");
+			index = available.indexOf(number);
+			available.splice(index, 1);
+			board[number%3][Math.floor(number/3)] = 2;
+		}
+		else {
+			var close = checkClose();
+			player = 1;
+			var badClose = checkClose();
+			player = 2;
+			if (close == -1) {
+				close = 0;
+			}
+			if (badClose == -1) {
+				badClose = 0;
+			}
+
+			if (available == []) {
+				var $button = $("<button></button>");
+				$("body").append($button)
+				$button.text("Play Again");
+				$button.click(reload);
+				buttons = false;
+			}
+			if (close !== false && $("." + close).text() == "") {
+				var $span = $("<span></span>").text("O");
+				$span.hide().appendTo($("." + close)).fadeIn();
+				$("." + close).css("background-color", "orange");
+				index = available.indexOf(close);
+				available.splice(index, 1);
+				board[close%3][Math.floor(close/3)] = 2;
+			}
+			else if (badClose !== false && $("." + badClose).text() == "") {
+				var $span = $("<span></span>").text("O");
+				$span.hide().appendTo($("." + badClose)).fadeIn();
+				$("." + badClose).css("background-color", "orange");
+				index = available.indexOf(badClose);
+				available.splice(index, 1);
+				board[badClose%3][Math.floor(badClose/3)] = 2;
+			}
+			else {
+				var number = available[Math.floor(Math.random() * available.length)]
+				if (number !== undefined) {
+					var $span = $("<span></span>").text("O");
+					$span.hide().appendTo($("." + number)).fadeIn();
+					$("." + number).css("background-color", "orange");
+					index = available.indexOf(number);
+					available.splice(index, 1);
+					board[number%3][Math.floor(number/3)] = 2;
+				}
+			}
+			checkWinner();
+		}
 
 	}
 	var checkClose = function () {
@@ -76,12 +108,14 @@ $(document).ready(function() {
 		if (cell1 == player && cell2 == player && board[i3][j3] == 0)  {
 			return (i3 + (j3 * 3));
 		}
-		if (cell1 == player && cell3 == player && board[i2][j2] == 0) {
+		else if (cell1 == player && cell3 == player && board[i2][j2] == 0) {
 			return (i2 + (j2 * 3));
 		}
-		if (cell2 == player && cell3 == player && board[i1][j1] == 0) {
-			console.log((i1 + (j1 * 3)));
-			return ((i1 + (j1 * 3)));
+		else if (cell2 == player && cell3 == player && board[i1][j1] == 0) {
+			if ((i1 + (j1 * 3)) == 0) {
+				return (-1);
+			}
+			return (i1 + (j1 * 3));
 		}
 		else {
 			return false;
@@ -152,17 +186,16 @@ $(document).ready(function() {
 					checkWinner();
 					player = 1;
 					turns += 1;
-					console.log(turns)
 				}
-				if (turns == 9 && !gameOver) {
-				$("td").css("background-color", "red");
+				if (turns >= 9 && !gameOver) {
+					$("td").css("background-color", "red");
 
 
-				$("#winner").text("It's cats game")
-				var $button = $("<button></button>");
-				$("body").append($button)
-				$button.text("Play Again");
-				$button.click(reload);
+					$("#winner").text("It's cats game")
+					var $button = $("<button></button>");
+					$("body").append($button)
+					$button.text("Play Again");
+					$button.click(reload);
 			}
 		};
 
