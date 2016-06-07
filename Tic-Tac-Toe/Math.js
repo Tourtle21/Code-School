@@ -14,12 +14,13 @@ $(document).ready(function() {
 		var close = checkClose();
 		player = 1;
 		var badClose = checkClose();
+		player = 2;
 		console.log(close, badClose)
 		if (available == []) {
 			var $button = $("<button></button>");
 			$("body").append($button)
 			$button.text("Play Again");
-			$button.click(reload);				
+			$button.click(reload);
 			buttons = false;
 		}
 		if (close !== false && $("." + close).text() == "") {
@@ -47,6 +48,7 @@ $(document).ready(function() {
 			available.splice(index, 1);
 			board[number%3][Math.floor(number/3)] = 2;
 		}
+		checkWinner();
 
 	}
 	var checkClose = function () {
@@ -64,20 +66,20 @@ $(document).ready(function() {
 			}
 		};
 		return false;
-		
-		
+
+
 	}
 	var checkCloseSet = function(player, i1, j1, i2, j2, i3, j3) {
 		var cell1 = board[i1][j1]
 		var cell2 = board[i2][j2]
 		var cell3 = board[i3][j3]
-		if (cell1 == player && cell2 == player)  {
+		if (cell1 == player && cell2 == player && board[i3][j3] == 0)  {
 			return (i3 + (j3 * 3));
 		}
-		if (cell1 == player && cell3 == player) {
+		if (cell1 == player && cell3 == player && board[i2][j2] == 0) {
 			return (i2 + (j2 * 3));
 		}
-		if (cell2 == player && cell3 == player) {
+		if (cell2 == player && cell3 == player && board[i1][j1] == 0) {
 			console.log((i1 + (j1 * 3)));
 			return ((i1 + (j1 * 3)));
 		}
@@ -85,7 +87,7 @@ $(document).ready(function() {
 			return false;
 		}
 	}
-	var checkWinningSet= function(player, i1, j1, i2, j2, i3, j3) {
+	var checkWinningSet = function(player, i1, j1, i2, j2, i3, j3) {
 		var cell1 = board[i1][j1]
 		var cell2 = board[i2][j2]
 		var cell3 = board[i3][j3]
@@ -99,7 +101,7 @@ $(document).ready(function() {
 				var $button = $("<button></button>");
 				$("body").append($button)
 				$button.text("Play Again");
-				$button.click(reload);				
+				$button.click(reload);
 				buttons = false;
 			}
 		}
@@ -133,7 +135,7 @@ $(document).ready(function() {
 					checkWinner();
 					player = 1;
 				}
-				
+
 				else if (!gameOver && player == 1){
 					board[row][col] = 1;
 					index = available.indexOf(row + (col * 3))
@@ -145,15 +147,17 @@ $(document).ready(function() {
 					checkWinner();
 					player = 2;
 				}
-				if (computerOn) {
+				if (computerOn && !gameOver) {
 					computer();
 					checkWinner();
 					player = 1;
+					turns += 1;
+					console.log(turns)
 				}
 				if (turns == 9 && !gameOver) {
-				$("td").css("background-color", "red");			
-				
-				
+				$("td").css("background-color", "red");
+
+
 				$("#winner").text("It's cats game")
 				var $button = $("<button></button>");
 				$("body").append($button)
@@ -161,12 +165,12 @@ $(document).ready(function() {
 				$button.click(reload);
 			}
 		};
-			
+
 
 
 	});
-		
-		
+
+
 	};
 	document.addEventListener("keydown", function(e) {
 		if (e.which == 67) {
