@@ -1,11 +1,13 @@
 
 	var size = 4;
 	var board = {};
+	var score = 0;
+	var highScore = 0;
+	var checks = 0;
 	// board = {"2-1": 2048, "3-1": 1024, "1-3": 512, "2-3": 256, "0-2": 128, "1-2": 64, "1-1": 32, "0-0": 16, "0-1": 8, "1-0": 4}
 	var tileKey = function(col, row) {
 		return "" + col + "-" + row;
 	};
-
 	var createBoard = function () {
 		var $board = $("#board")
 		for (var i = 0; i < size; i++) {
@@ -55,6 +57,8 @@
 		board[key] = number;
 	}
 	var newGame = function() {
+		$("#board").css("opacity", "1");
+		$("#text").text("")
 		board = {};
 		addRandomTile();
 		addRandomTile();
@@ -80,6 +84,18 @@
 			break;
 		}
 	});
+	var checkChange = function(board, copy) {
+		for (var col = 0; col < size; col++) {
+			for (var row = 0; row < size; row++) {
+				var key = tileKey(col, row);
+				var val = board[key];
+				var cval = copy[key];
+				if (val != cval) {
+					return true;
+				} 
+			}
+		}
+	}
 	var getNumbersInRow = function(row) {
 		var numbers = [];
 		for (var col = 0; col < size; col++) {
@@ -106,6 +122,10 @@
 		var array = [];
 		while (numbers.length > 0) {
 			if (numbers[0] === numbers[1]) {
+				$("#animate").remove();
+				$("body").append("<div id='animate'>+ "+ numbers[0] *2 +"</div>") 
+				$("#animate").animate({top: "50px", opacity: "0.4"}, "slow");
+				score += numbers[0] * 2
 				array.push(numbers[0] * 2);
 				numbers.shift();
 				numbers.shift();
@@ -119,12 +139,72 @@
 		}
 		return array
 	}
+	var gameOver = function() {
+		$("#board").fadeTo("slow", 0.4, function() {
+
+		});
+		$("#text").text("GAME OVER")
+	}
+	var checkGameOver = function() {
+		if (!checkCanMove() && noEmpty()) {
+			gameOver();
+		}
+	}
+	var noEmpty = function() {
+		for (var i = 0; i < size; i++) {
+			for (var j = 0; j < size; j++) {
+				var key = tileKey(j, i);
+				if (board[key] == undefined) {
+					return false;
+				}
+			};
+		};
+		return true;
+	}
+	var checkCanMove = function() {
+		for (var i = 0; i < size; i++) {
+			for (var j = 0; j < size; j++) {
+				var key = tileKey(j, i);
+				if (board[key] == board[tileKey(j+1, i)] || board[key] == board[tileKey(j, i+1)]) {
+					return true;
+				}
+			};
+		};
+		return false;
+	}
+	// var moves = function(key, col, row) {
+	// 	console.log(col == 1)
+	// 	if (col == 0) {
+	// 		return 0;
+	// 	}
+	// 	else if (col == 1 && board[col - 1 + "-" + row] != undefined) {
+	// 		console.log("hi")
+	// 		return 1;
+	// 	}
+	// }
+	// var animate = function(direction) {
+	// 	if (direction == "left") {
+	// 		for (var i = 0; i < size; i++) {
+	// 			for (var j = 0; j < size; j++) {
+	// 				var key = tileKey(j, i);
+	// 				if (moves(key, j, i) == 1) {
+	// 					console.log($("#" + key)[0])
+	// 					$("#" + key)[0].animate({left: "10px"})
+	// 				}
+	// 			};
+	// 		};
+	// 	}
+	// }
+	// var timeout = function() {
+	// 	combineLeft(n);
+	// }
 	var keyPressed = function(direction) {
 		var copy = $.extend({}, board);
-		console.log(copy , board)
 		if (direction == "left") {
 			for (var n = 0; n < size; n++) {
+				// animate("left");
 				combineLeft(n);
+				// setTimeout(timeout, 10000)
 			}
 		}
 		if (direction == "up") {
@@ -140,10 +220,19 @@
 		if (direction == "down") {
 			for (var n = 0; n < size; n++) {
 				combineDown(n);
+
 			}
 		}
+		if (checkChange(board, copy)) {
+			addRandomTile();
+		}
 		refreshBoard();
-		addRandomTile();
+		if (score > highScore) {
+			highScore = score;
+		}
+		$("#score").text("Score: " + score);
+		$("#highScore").text("High Score: " + highScore);
+		checkGameOver();
 	}
 	var setNumbersInRow = function(row, newNumbers) {
 		for (var col = 0; col  < size; col++) {
@@ -175,10 +264,23 @@
 		var numbers = collapse(oldNumbers).reverse();
 		setNumbersInCol(col, numbers);
 	}
-	
+	var clearBoard = function() {
+		board = {};
+		createBoard();
+		refreshBoard();
+	};
+	$("#newGame").click(function() {
+		score = 0;
+		$("#score").text("Score: "+score)
+		newGame();
+	});
+	setInterval(function() {
+		if($("#animate").css("top") == "50px") {
+			$("#animate").remove();
+		}
+	});
 	createBoard();
 	addRandomTile();
 	addRandomTile();
 	refreshBoard();
-	console.log(collapse(getNumbersInRow(0)))
 
