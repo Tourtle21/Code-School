@@ -11,7 +11,7 @@ body {
 	text-align: center;
 }
 #board {
-	margin: auto;
+	margin:0 auto;
 	display:inline-block;
 	border: solid 10px orange;
 	border-radius: 10px;
@@ -32,37 +32,41 @@ body {
 	color: orange;
 }
 .tile-2 {
-	background: #00E3E5;
+	background: #1EE7FF;
 }
 .tile-4 {
-	background: #058BE7;
+	background: #1B9DE8;
 }
 .tile-8 {
-	background: #0A37E9;
+	background: #2B79FF;
 }
 .tile-16 {
-	background: #3A10EB;
+	background: #431EFF;
 }
 .tile-32 {
-	background: #9415ED;
+	background: #1B31E8;
 }
 .tile-64 {
-	background: #EB1BEF;
+	background: #000263;
 }
 .tile-128 {
-	background: #F121A2;
+	background: #00013B;
 }
 .tile-256 {
-	background: #F32655;
+	background: #002409;
+	color: lightblue;
 }
 .tile-512 {
-	background: #F54E2C;
+	background: #00701E;
+	color: lightblue;
 }
 .tile-1024 {
-	background: #F7A132;
+	background: #00BD32;
+	color: lightblue;
 }
 .tile-2048 {
-	background: #F9F038;
+	background: #F7FF32;
+	color: lightblue;
 }
 @media screen and (max-width: 650px) {
 	.tile {
