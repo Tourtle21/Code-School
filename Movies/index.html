@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Movies</title>
+		<link href="style.css" type="text/css" rel="stylesheet">
+	</head>
+	<body>
+		  <div id="left-pane">
+      <h2>Movie List</h2>
+      <ul id="list"></ul>
+    </div>
+    <div id="right-pane">
+      <h2>New Movie</h2>
+      <form id="form">
+        <p>
+          <input type="text" id="input-name" placeholder="Enter a name">
+        </p>
+        <p>
+          <input type="text" id="input-genre" placeholder="Enter a genre">
+        </p>
+        <p>
+          <textarea id="input-description" placeholder="Enter a description"></textarea>
+        </p>
+        <p>
+          <input id="button" type="submit" value="Add Movie">
+        </p>
+      </form>
+    </div>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script> 
+		<script type="text/javascript" src="movies.js"></script>
+	</body>
+</html>

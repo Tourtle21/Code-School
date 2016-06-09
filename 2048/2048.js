@@ -57,6 +57,9 @@
 		board[key] = number;
 	}
 	var newGame = function() {
+		score = 0;
+		localStorage.getItem("score", 0)
+		$("#score").text("Score: " + score)
 		$("#board").css("opacity", "1");
 		$("#text").text("")
 		board = {};
@@ -147,7 +150,7 @@
 	}
 	var checkGameOver = function() {
 		if (!checkCanMove() && noEmpty()) {
-			gameOver();
+			return true;
 		}
 	}
 	var noEmpty = function() {
@@ -172,39 +175,11 @@
 		};
 		return false;
 	}
-	// var moves = function(key, col, row) {
-	// 	console.log(col == 1)
-	// 	if (col == 0) {
-	// 		return 0;
-	// 	}
-	// 	else if (col == 1 && board[col - 1 + "-" + row] != undefined) {
-	// 		console.log("hi")
-	// 		return 1;
-	// 	}
-	// }
-	// var animate = function(direction) {
-	// 	if (direction == "left") {
-	// 		for (var i = 0; i < size; i++) {
-	// 			for (var j = 0; j < size; j++) {
-	// 				var key = tileKey(j, i);
-	// 				if (moves(key, j, i) == 1) {
-	// 					console.log($("#" + key)[0])
-	// 					$("#" + key)[0].animate({left: "10px"})
-	// 				}
-	// 			};
-	// 		};
-	// 	}
-	// }
-	// var timeout = function() {
-	// 	combineLeft(n);
-	// }
 	var keyPressed = function(direction) {
 		var copy = $.extend({}, board);
 		if (direction == "left") {
 			for (var n = 0; n < size; n++) {
-				// animate("left");
 				combineLeft(n);
-				// setTimeout(timeout, 10000)
 			}
 		}
 		if (direction == "up") {
@@ -225,6 +200,8 @@
 		}
 		if (checkChange(board, copy)) {
 			addRandomTile();
+			refreshBoard();
+			saveData();
 		}
 		refreshBoard();
 		if (score > highScore) {
@@ -232,7 +209,9 @@
 		}
 		$("#score").text("Score: " + score);
 		$("#highScore").text("High Score: " + highScore);
-		checkGameOver();
+		if (checkGameOver()) {
+			gameOver();
+		}
 	}
 	var setNumbersInRow = function(row, newNumbers) {
 		for (var col = 0; col  < size; col++) {
@@ -273,14 +252,44 @@
 		score = 0;
 		$("#score").text("Score: "+score)
 		newGame();
+		saveData();
 	});
 	setInterval(function() {
 		if($("#animate").css("top") == "50px") {
 			$("#animate").remove();
 		}
 	});
+	var saveData = function() {
+		localStorage.setItem("board", JSON.stringify(board));
+		localStorage.setItem("highScore", highScore)
+		localStorage.setItem("score", score)
+	};
+	var loadSavedData = function () {
+		var savedScore = localStorage.getItem("score");
+		if (savedScore && !checkGameOver()) {
+			score = parseInt(savedScore, 10);
+			$("#score").text("Score: " + score);
+		}
+		var savedBestScore = localStorage.getItem("highScore")
+		if (savedBestScore) {
+			highScore = parseInt(savedBestScore, 10);
+			$("#highScore").text("High Score: " + highScore);
+		}
+
+		var savedBoard = localStorage.getItem("board");
+		if (savedBoard) {
+			board = JSON.parse(savedBoard);
+			if (checkGameOver()) {
+				newGame();
+			} else {
+				refreshBoard();
+			}
+			refreshBoard();
+		} else {
+			newGame();
+		}
+	};
 	createBoard();
-	addRandomTile();
-	addRandomTile();
+	loadSavedData();
 	refreshBoard();
 
