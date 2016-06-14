@@ -18,7 +18,7 @@ var config = {
 		images: './src/images/*',
 		css: [
 			"node_modules/bootstrap/dist/css/bootstrap.min.css",
-			"node_modules/bootstrap/dist/css/bootstrap.theme.min.css",
+			"node_modules/bootstrap/dist/css/bootstrap-theme.min.css",
 		],
 		dist: './dist',
 	}
@@ -49,7 +49,7 @@ gulp.task('html', function () {
 gulp.task("css", function() {
 	gulp.src(config.paths.css)
 		.pipe(concat("bundle.css"))
-		.pipe(gulp.dest(config.paths.dist + "/css"));
+		.pipe(gulp.dest(config.paths.dist + "/css"))
 		.pipe(connect.reload());
 });
 
@@ -60,12 +60,12 @@ gulp.task("images", function() {
 });
 
 gulp.task("js", function() {
-	browserify.src(config.paths.mainJs)
+	browserify(config.paths.mainJs)
 		.transform(reactify)
 		.bundle()
 		.on("error", console.error.bind(console))
 		.pipe(source("bundle.js"))
-		.pipe(gulp.dest(config.paths.dist + "/script"))
+		.pipe(gulp.dest(config.paths.dist + "/scripts"))
 		.pipe(connect.reload());
 });
 
@@ -75,5 +75,5 @@ gulp.task("watch", function() {
 });
 
 // Runs all tasks
-gulp.task("default", ['html', 'css', 'js', 'images', 'open', 'watch'])
+gulp.task("default", ['html', 'css', 'js', 'open', 'watch'])
 
