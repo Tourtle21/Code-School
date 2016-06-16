@@ -13,6 +13,7 @@ ReactDOM.render(
 		{routes}
 	</Router>
 	, document.getElementById("app"));
+// slade is the best person on earth and when the other people decide they want to kill him they have the right to try but slade is to buff for them so they probably would get ra*ekt
 
 // Rule 1: Has to have render method
 // Rule 2: can only have one top level tag
