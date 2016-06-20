@@ -14,6 +14,7 @@ var TextInput = React.createClass({
 						placeholder={this.props.placeholder}
 						ref={this.props.name}
 						value={this.props.value}
+						onChange={this.props.saveTodoState}
 					/>		
 				</div>
 			</div>

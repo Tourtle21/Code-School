@@ -1,7 +1,10 @@
 "use strict";
 
 var React = require("react");
-var TextInput = require("../common/TextInput")
+var TodoForm = require("./TodoForm");
+var todoApi = require("../../mockApi/todoApi");
+var toastr = require("toastr");
+var hashHistory = require("react-router").hashHistory;
 
 var ManageTodoPage = React.createClass({
 	getInitialState: function() {
@@ -17,27 +20,39 @@ var ManageTodoPage = React.createClass({
 	saveTodoState: function(event) {
 		var field = event.target.name;
 		var value = event.target.value;
+		var newTodo = Object.assign({}, this.state.todo);
+		
+		newTodo[field] = value;
+
+		this.setState({
+			todo: newTodo
+		});
+
+		
+	},
+
+	saveTodo: function (event) {
+		console.log(this.state.todo.title)
+		if (this.state.todo.title != "") {
+			event.preventDefault();
+			todoApi.saveTodo(this.state.todo);
+			toastr.success("Todo saved!");
+			hashHistory.push('/todos')
+		}
+		else {
+			toastr.warning("You at least have to enter a title")
+		}
 	},
 
 	render: function() {
 		return (
 			<div>
 				<h2>Manage Todo</h2>
-				<form>
-					<h3>Todo Form</h3>
-					<TextInput
-						name="Title:"
-						placeholder="Title"
-						value=''
-						onChange={this.saveTodoState}
-					 />
-					<TextInput 
-						name="Description:"
-						placeholder="Description"
-						value=""
-						onChange={this.saveTodoState}
-					/>
-				</form>
+				<TodoForm 
+					todo={this.state.todo}
+					saveTodoState={this.saveTodoState}
+					saveTodo={this.saveTodo}
+				/>
 			</div>
 		);
 	}

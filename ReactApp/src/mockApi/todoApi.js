@@ -35,8 +35,8 @@ var todoApi = {
       //Just simulating creation here.
       //The server would generate ids for new authors in a real app.
       //Cloning so copy returned is passed by value rather than by reference.
-      todo.id = _generateId(todo);
-      todo.push(todo);
+      todo.id = todos.length;
+      todos.push(todo);
     }
 
     return _clone(todo);
