@@ -12,12 +12,14 @@ var TodoForm = React.createClass({
 					placeholder="Title"
 					value={this.props.todo.title}
 					saveTodoState={this.props.saveTodoState}
+					error={this.props.errors.title}
 				 />
 				<TextInput 
 					name="description"
 					placeholder="Description"
 					value={this.props.todo.description}
 					saveTodoState={this.props.saveTodoState}
+					error={this.props.errors.description}
 				/>
 				<input type="submit" value="Save Todo" className="btn btn-success" />
 			</form>

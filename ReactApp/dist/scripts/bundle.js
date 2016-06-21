@@ -51664,7 +51664,9 @@ var App = React.createClass({displayName: "App",
 		return (
 			React.createElement("div", null, 
 				React.createElement(Header, null), 
-				this.props.children
+				React.createElement("div", {className: "container"}, 
+					this.props.children
+				)
 			)
 		);
 	}
@@ -51748,8 +51750,12 @@ var React = require("react");
 
 var TextInput = React.createClass({displayName: "TextInput",
 	render: function() {
+		var wrapperClass = "form-group";
+		if (this.props.error && this.props.error.length > 0) {
+			wrapperClass += " has-error";
+		}
 		return (
-			React.createElement("div", {className: "form-group"}, 
+			React.createElement("div", {className: wrapperClass}, 
 				React.createElement("label", {htmlFor: this.props.name}, this.props.name), 
 				React.createElement("div", {className: "field"}, 
 					React.createElement("input", {
@@ -51759,7 +51765,8 @@ var TextInput = React.createClass({displayName: "TextInput",
 						ref: this.props.name, 
 						value: this.props.value, 
 						onChange: this.props.saveTodoState}
-					)		
+					), 		
+					React.createElement("div", {className: "text-danger"}, this.props.error)
 				)
 			)
 		);
@@ -51779,6 +51786,9 @@ var hashHistory = require("react-router").hashHistory;
 var ManageTodoPage = React.createClass({displayName: "ManageTodoPage",
 	getInitialState: function() {
 		return {
+			errors: {
+
+			},
 			todo: {
 				id: '',
 				title: '',
@@ -51802,16 +51812,32 @@ var ManageTodoPage = React.createClass({displayName: "ManageTodoPage",
 	},
 
 	saveTodo: function (event) {
-		console.log(this.state.todo.title)
-		if (this.state.todo.title != "") {
-			event.preventDefault();
-			todoApi.saveTodo(this.state.todo);
-			toastr.success("Todo saved!");
-			hashHistory.push('/todos')
+		event.preventDefault();
+		if (!this.todoFormIsValid()) {
+			return;
 		}
-		else {
-			toastr.warning("You at least have to enter a title")
-		}
+		console.log(this.state.todo)
+		todoApi.saveTodo(this.state.todo);
+		toastr.success("Todo saved!");
+		hashHistory.push('/todos')
+	},
+
+	todoFormIsValid: function () {
+		var formIsValid = true;
+		var newErrors = {};
+
+		if (this.state.todo.title.length < 3) {
+			newErrors.title = "Title cannot be less than 3 characters...duh";
+			formIsValid = false;
+		};
+		if (this.state.todo.description.length < 10) {
+			newErrors.description = "Description cannot be less than 10 characters...duh";
+			formIsValid = false;
+		};
+		this.setState({
+			errors: newErrors
+		});
+		return formIsValid;
 	},
 
 	render: function() {
@@ -51821,7 +51847,8 @@ var ManageTodoPage = React.createClass({displayName: "ManageTodoPage",
 				React.createElement(TodoForm, {
 					todo: this.state.todo, 
 					saveTodoState: this.saveTodoState, 
-					saveTodo: this.saveTodo}
+					saveTodo: this.saveTodo, 
+					errors: this.state.errors}
 				)
 			)
 		);
@@ -51844,13 +51871,15 @@ var TodoForm = React.createClass({displayName: "TodoForm",
 					name: "title", 
 					placeholder: "Title", 
 					value: this.props.todo.title, 
-					saveTodoState: this.props.saveTodoState}
+					saveTodoState: this.props.saveTodoState, 
+					error: this.props.errors.title}
 				 ), 
 				React.createElement(TextInput, {
 					name: "description", 
 					placeholder: "Description", 
 					value: this.props.todo.description, 
-					saveTodoState: this.props.saveTodoState}
+					saveTodoState: this.props.saveTodoState, 
+					error: this.props.errors.description}
 				), 
 				React.createElement("input", {type: "submit", value: "Save Todo", className: "btn btn-success"})
 			)
@@ -51864,17 +51893,25 @@ module.exports = TodoForm;
 "use strict";
 
 var React = require("react");
-
+var todoApi = require("../../mockApi/todoApi");
+var toastr = require("toastr")
+var hashHistory = require("react-router").hashHistory;
 
 var TodoList = React.createClass({displayName: "TodoList",
+	deleteTodo: function (todoId, event) {
+		event.preventDefault();
+		todoApi.deleteTodo(todoId);
+		toastr.success("Todo deleted!");
+		// slade wants to use it for his own diabolicol ways
+	},
 
 	render: function() {
 		var createTodoRow = function (todo) {
 			return (
 				React.createElement("tr", {key: todo.id}, 
-					React.createElement("td", null, todo.id), 
 					React.createElement("td", null, todo.title), 
-					React.createElement("td", null, todo.description)
+					React.createElement("td", null, todo.description), 
+					React.createElement("td", null, React.createElement("a", {onClick: this.deleteTodo.bind(this, todo.id), href: "#"}, "Delete"))
 				)
 			);
 		};
@@ -51882,9 +51919,9 @@ var TodoList = React.createClass({displayName: "TodoList",
 			React.createElement("table", {className: "table"}, 
 				React.createElement("thead", null, 
 					React.createElement("tr", null, 
-						React.createElement("th", null, "ID"), 
 						React.createElement("th", null, "Title"), 
-						React.createElement("th", null, "Description")
+						React.createElement("th", null, "Description"), 
+						React.createElement("th", null, "Edit")
 					)
 				), 
 				React.createElement("tbody", null, 
@@ -51897,7 +51934,7 @@ var TodoList = React.createClass({displayName: "TodoList",
 
 module.exports = TodoList;
 
-},{"react":228}],240:[function(require,module,exports){
+},{"../../mockApi/todoApi":242,"react":228,"react-router":57,"toastr":230}],240:[function(require,module,exports){
 "use strict";
 
 var React = require("react");
@@ -51967,9 +52004,10 @@ var todos = require('./todoData').todos;
 var _ = require('lodash');
 
 //This would be performed on the server in a real app. Just stubbing in.
-var _generateId = function(todo) {
-  // todo: get this to generate an id based off of position
-  return todo.title.toLowerCase() + '-' + todo.description.toLowerCase();
+var _generateId = function() {
+  // get the last id and increment by 1, always will keep keys unique
+  var newIndex = parseInt(_.last(todos).id) + 1;
+  return newIndex.toString();
 };
 
 var _clone = function(item) {
@@ -51986,18 +52024,33 @@ var todoApi = {
     return _clone(todo);
   },
 
-  saveTodo: function(todo) {
+  saveTodo: function(todo, change) {
     //pretend an ajax call to web api is made here
     console.log('Saved Todo, mocking an AJAX call...');
-
+    var existingTodoIndex;
+    if (todo.id && change) {
+      existingTodoIndex = _.indexOf(todos, _.find(todos, {id: todo.id}));
+      
+      switch (todo.done) {
+        case false:
+          todo.done = true;
+          break;
+        case true:
+          todo.done = false;
+          break;
+        default:
+          //do nothing
+      }
+      todos.splice(existingTodoIndex, 1, todo);
+    }
     if (todo.id) {
-      var existingTodoIndex = _.indexOf(todos, _.find(todos, {id: todo.id}));
-      todos.splice(existingAuthorIndex, 1, todo);
+      existingTodoIndex = _.indexOf(todos, _.find(todos, {id: todo.id}));
+      todos.splice(existingTodoIndex, 1, todo);
     } else {
       //Just simulating creation here.
       //The server would generate ids for new authors in a real app.
       //Cloning so copy returned is passed by value rather than by reference.
-      todo.id = todos.length;
+      todo.id = _generateId();
       todos.push(todo);
     }
 
@@ -52005,7 +52058,7 @@ var todoApi = {
   },
 
   deleteTodo: function(id) {
-    console.log('Deleted Todo, mocking an AJAX call...');
+    console.log('Deleted Todo ID ' + id + ', mocking an AJAX call...');
     _.remove(todos, { id: id});
   }
 };

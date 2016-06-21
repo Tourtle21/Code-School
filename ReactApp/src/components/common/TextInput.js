@@ -4,8 +4,12 @@ var React = require("react");
 
 var TextInput = React.createClass({
 	render: function() {
+		var wrapperClass = "form-group";
+		if (this.props.error && this.props.error.length > 0) {
+			wrapperClass += " has-error";
+		}
 		return (
-			<div className="form-group">
+			<div className={wrapperClass}>
 				<label htmlFor={this.props.name}>{this.props.name}</label>
 				<div className="field">
 					<input 
@@ -16,6 +20,7 @@ var TextInput = React.createClass({
 						value={this.props.value}
 						onChange={this.props.saveTodoState}
 					/>		
+					<div className="text-danger">{this.props.error}</div>
 				</div>
 			</div>
 		);

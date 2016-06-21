@@ -9,6 +9,9 @@ var hashHistory = require("react-router").hashHistory;
 var ManageTodoPage = React.createClass({
 	getInitialState: function() {
 		return {
+			errors: {
+
+			},
 			todo: {
 				id: '',
 				title: '',
@@ -32,16 +35,32 @@ var ManageTodoPage = React.createClass({
 	},
 
 	saveTodo: function (event) {
-		console.log(this.state.todo.title)
-		if (this.state.todo.title != "") {
-			event.preventDefault();
-			todoApi.saveTodo(this.state.todo);
-			toastr.success("Todo saved!");
-			hashHistory.push('/todos')
+		event.preventDefault();
+		if (!this.todoFormIsValid()) {
+			return;
 		}
-		else {
-			toastr.warning("You at least have to enter a title")
-		}
+		console.log(this.state.todo)
+		todoApi.saveTodo(this.state.todo);
+		toastr.success("Todo saved!");
+		hashHistory.push('/todos')
+	},
+
+	todoFormIsValid: function () {
+		var formIsValid = true;
+		var newErrors = {};
+
+		if (this.state.todo.title.length < 3) {
+			newErrors.title = "Title cannot be less than 3 characters...duh";
+			formIsValid = false;
+		};
+		if (this.state.todo.description.length < 10) {
+			newErrors.description = "Description cannot be less than 10 characters...duh";
+			formIsValid = false;
+		};
+		this.setState({
+			errors: newErrors
+		});
+		return formIsValid;
 	},
 
 	render: function() {
@@ -52,6 +71,7 @@ var ManageTodoPage = React.createClass({
 					todo={this.state.todo}
 					saveTodoState={this.saveTodoState}
 					saveTodo={this.saveTodo}
+					errors={this.state.errors}
 				/>
 			</div>
 		);
