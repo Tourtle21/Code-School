@@ -5,6 +5,8 @@ var TodoForm = require("./TodoForm");
 var todoApi = require("../../mockApi/todoApi");
 var toastr = require("toastr");
 var hashHistory = require("react-router").hashHistory;
+var todoActionCreator = require("../../actions/todoActionCreator");
+
 
 var ManageTodoPage = React.createClass({
 	getInitialState: function() {
@@ -39,8 +41,7 @@ var ManageTodoPage = React.createClass({
 		if (!this.todoFormIsValid()) {
 			return;
 		}
-		console.log(this.state.todo)
-		todoApi.saveTodo(this.state.todo);
+		todoActionCreator.createTodo(this.state.todo)
 		toastr.success("Todo saved!");
 		hashHistory.push('/todos')
 	},

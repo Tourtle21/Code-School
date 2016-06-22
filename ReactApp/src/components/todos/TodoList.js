@@ -9,8 +9,9 @@ var TodoList = React.createClass({
 	deleteTodo: function (todoId, event) {
 		event.preventDefault();
 		todoApi.deleteTodo(todoId);
-		toastr.success("Todo deleted!");
-		// slade wants to use it for his own diabolicol ways
+		toastr.success("Todo deleted!"); 
+		// slade the sliper wants to use it for his own diabolicol ways
+		// rekt.slade("sliper")
 	},
 
 	render: function() {
