@@ -4,7 +4,7 @@ var React = require("react");
 var TodoForm = require("./TodoForm");
 var todoApi = require("../../mockApi/todoApi");
 var toastr = require("toastr");
-var hashHistory = require("react-router").hashHistory;
+var browserHistory = require("react-router").browserHistory;
 var todoActionCreator = require("../../actions/todoActionCreator");
 
 
@@ -43,7 +43,7 @@ var ManageTodoPage = React.createClass({
 		}
 		todoActionCreator.createTodo(this.state.todo)
 		toastr.success("Todo saved!");
-		hashHistory.push('/todos')
+		browserHistory.push('/todos-page')
 	},
 
 	todoFormIsValid: function () {

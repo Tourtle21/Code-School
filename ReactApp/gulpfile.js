@@ -12,10 +12,10 @@ var config = {
 	port: 8999,
 	devBaseUrl: "http://localhost",
 	paths: {
-		html: './src/*.html',
-		js: './src/**/*.js',
-		mainJs: './src/main.js',
-		images: './src/images/*',
+		html: './client/src/*.html',
+		js: './client/src/**/*.js',
+		mainJs: './client/src/main.js',
+		images: './client/src/images/*',
 		css: [
 			"node_modules/bootstrap/dist/css/bootstrap.min.css",
 			"node_modules/bootstrap/dist/css/bootstrap-theme.min.css",
@@ -76,5 +76,5 @@ gulp.task("watch", function() {
 });
 
 // Runs all tasks
-gulp.task("default", ['html', 'css', 'js', 'open', 'watch'])
+gulp.task("default", ['html', 'css', 'js', 'watch'])
 

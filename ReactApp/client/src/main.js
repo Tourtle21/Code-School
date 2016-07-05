@@ -4,12 +4,12 @@ var $, jQuery;
 $ = jQuery = require("jquery");
 var React = require("react");
 var ReactDOM = require("react-dom");
-var hashHistory = require("react-router").hashHistory;
+var browserHistory = require("react-router").browserHistory;
 //components
 var Router = require("react-router").Router;
 var routes = require("./routes");
 ReactDOM.render(
-	<Router history={hashHistory}>
+	<Router history={browserHistory}>
 		{routes}
 	</Router>
 	, document.getElementById("app"));

@@ -12,8 +12,8 @@ var ManageTodoPage = require("./components/todos/ManageTodoPage");
 var routes = (
 	<Route path="/" component={App}>
 		<IndexRoute component={HomePage} />
-		<Route path="/about" component={AboutPage} />
-		<Route path="/todos" component={TodoPage} />
+		<Route path="/about-page" component={AboutPage} />
+		<Route path="/todos-page" component={TodoPage} />
 		<Route path="/manage-todo" component={ManageTodoPage} />
 	</Route>
 
