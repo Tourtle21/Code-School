@@ -13,8 +13,20 @@ var TodoList = React.createClass({
 		// slade the sliper wants to use it for his own diabolicol ways
 		// rekt.slade("sliper")
 	},
-
+	log: function () {
+		console.log(this.props.todos)
+	},
 	render: function() {
+		var checkForTodos = function () {
+			if (this.props.todos.length > 0) {
+				return this.props.todos.map(createTodoRow, this);
+			}  else {
+				return (
+					<tr><td>No Todos</td></tr>
+				)
+			}
+		}.bind(this);
+
 		var createTodoRow = function (todo) {
 			return (
 				<tr key={todo.id}>
@@ -34,7 +46,7 @@ var TodoList = React.createClass({
 					</tr>
 				</thead>
 				<tbody>
-					{this.props.todos.map(createTodoRow, this)}
+					{checkForTodos()}
 				</tbody>
 			</table>
 		);

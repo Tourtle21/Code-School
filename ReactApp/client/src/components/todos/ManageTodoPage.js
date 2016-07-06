@@ -63,7 +63,6 @@ var ManageTodoPage = React.createClass({
 		});
 		return formIsValid;
 	},
-
 	render: function() {
 		return (
 			<div>

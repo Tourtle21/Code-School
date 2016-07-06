@@ -7,7 +7,7 @@ var colors = require('colors')
 var path = require('path')
 
 //Configure Mongoose
-mongoose.connect('mongodb://mongodb.cs.dixie.edu/SudoBashBash');
+mongoose.connect('mongodb://mongodb.cs.dixie.edu/bbarney435');
 
 mongoose.connection.on('connected', function() {
 	console.log("Connected to DB".green)

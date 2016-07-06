@@ -25,17 +25,16 @@ var TodoStore = Object.assign({}, EventEmitter.prototype, {
 
 Dispatcher.register(function (action) {
 	switch (action.actionType) {
+		case ActionTypes.INITIALIZE:
+			_todos = action.initialData.todos
+			TodoStore.emitChange();
+			break;
 		case ActionTypes.CREATE_TODO:
 			// add the todo
 			_todos.push(action.todo);
 			TodoStore.emitChange();
 			break;
-		case ActionTypes.DELETE_TODO:
-			_todos.pop(action.todo);
-			TodoStore.emitChange();
-			break;
 		// case ActionTypes.UPDATE_TODO:
-
 		// break;
 		default: 
 			// do nothing

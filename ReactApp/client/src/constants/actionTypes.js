@@ -3,5 +3,6 @@
 module.exports = {
 	CREATE_TODO: 'create todo',
 	UPDATE_TODO: 'update todo',
-	DELETE_TODO: 'delete todo'
+	DELETE_TODO: 'delete todo',
+	INITIALIZE: 'initialize'
 };

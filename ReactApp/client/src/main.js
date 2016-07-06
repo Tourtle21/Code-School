@@ -8,6 +8,10 @@ var browserHistory = require("react-router").browserHistory;
 //components
 var Router = require("react-router").Router;
 var routes = require("./routes");
+var initializeActionCreator = require("./actions/initializeActionCreator");
+
+initializeActionCreator.initializeApp();
+
 ReactDOM.render(
 	<Router history={browserHistory}>
 		{routes}
