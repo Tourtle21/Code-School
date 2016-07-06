@@ -1,9 +1,11 @@
-"use strict";
-var React = require("react");
-var Header = require("./common/Header")
+'use strict';
+
+var React = require('react');
+var Header = require('./common/Header');
+
 
 var App = React.createClass({
-	render: function() {
+	render: function () {
 		return (
 			<div>
 				<Header />
@@ -16,5 +18,3 @@ var App = React.createClass({
 });
 
 module.exports = App;
-
-// props.children evaluates what child is selected by the url

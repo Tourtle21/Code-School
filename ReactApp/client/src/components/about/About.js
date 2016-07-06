@@ -1,12 +1,14 @@
-"use strict";
-var React = require("react");
+'use strict';
+
+var React = require('react');
+
 
 var AboutPage = React.createClass({
 	render: function() {
 		return (
 			<div>
 				<h1>Cool Stuff We Are Learning</h1>
-				<p> We are going to do things with these technologies.</p>
+				<p>We are going to do things with these technologies.</p>
 				<ul>
 					<li>Gulp</li>
 					<li>React</li>
@@ -20,4 +22,5 @@ var AboutPage = React.createClass({
 		);
 	}
 });
+
 module.exports = AboutPage;

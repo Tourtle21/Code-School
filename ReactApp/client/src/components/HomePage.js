@@ -1,9 +1,10 @@
-"use strict";
+'use strict';
 
-var React = require("react");
+var React = require('react');
+
 
 var Home = React.createClass({
-	render: function() {
+	render: function () {
 		return (
 			<div className="jumbotron">
 				<h1>Code School React App</h1>
@@ -12,4 +13,5 @@ var Home = React.createClass({
 		);
 	}
 });
+
 module.exports = Home;

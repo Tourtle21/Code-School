@@ -1,27 +1,19 @@
-"use strict";
-// Links
-var $, jQuery;
-$ = jQuery = require("jquery");
-var React = require("react");
-var ReactDOM = require("react-dom");
-var browserHistory = require("react-router").browserHistory;
-//components
-var Router = require("react-router").Router;
-var routes = require("./routes");
-var initializeActionCreator = require("./actions/initializeActionCreator");
+'use strict';
 
-initializeActionCreator.initializeApp();
+var $, jQuery;
+$ = jQuery = require('jquery');
+var React = require('react');
+var ReactDOM = require('react-dom');
+var Router = require('react-router').Router;
+var browserHistory = require('react-router').browserHistory;
+var routes = require('./routes');
+var InitializeActionCreator = require('./actions/initializeActionCreator');
+
+InitializeActionCreator.initializeApp();
 
 ReactDOM.render(
 	<Router history={browserHistory}>
 		{routes}
 	</Router>
-	, document.getElementById("app"));
-// slade is the best person on earth and when the other people decide they want to kill him they have the right to try but slade is to buff for them so they probably would get ra*ekt
-
-// Rule 1: Has to have render method
-// Rule 2: can only have one top level tag
-// Rule 3: No mutating data directly/So we have to change state
-// UI and UX
-
-// Numbers/Letters on the end make it so you can go backwards and forwards
+	, document.getElementById('app')
+);

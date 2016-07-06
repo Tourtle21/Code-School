@@ -1,7 +1,7 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
-var Dispatcher = require('../dispatcher/Dispatcher')
+var Dispatcher = require('../dispatcher/Dispatcher');
 var todoApi = require('../mockApi/todoApi');
 var ActionTypes = require('../constants/actionTypes');
 
@@ -12,23 +12,24 @@ var InitializeActionCreator = {
 			initialData: {
 				todos: todoApi.getAllTodos()
 			}
-		})
+		});
 	}
-}
+};
 
 module.exports = InitializeActionCreator;
 
 },{"../constants/actionTypes":12,"../dispatcher/Dispatcher":13,"../mockApi/todoApi":17}],2:[function(require,module,exports){
-"use strict";
+'use strict';
 
-var Dispatcher = require("../dispatcher/Dispatcher");
-var ActionTypes = require("../constants/actionTypes");
-var API = require('../helpers/api')
+var Dispatcher = require('../dispatcher/Dispatcher');
+var ActionTypes = require('../constants/actionTypes');
+var API = require('../helpers/api');
 
-var TodoActionCreater = {
+
+var TodoActionCreator = {
 	createTodo: function (todo) {
 		var newTodoPromise = API.createTodo(todo);
-		
+
 		newTodoPromise
 			.then(function (newTodo) {
 				Dispatcher.dispatch({
@@ -37,22 +38,22 @@ var TodoActionCreater = {
 				});
 			})
 			.fail(function (xhr, status, err) {
-				console.log('Create Todo Failed!')
+				console.log('Create Todo Failed!');
 			});
-
-
 	}
 };
 
-module.exports = TodoActionCreater;
+module.exports = TodoActionCreator;
 
 },{"../constants/actionTypes":12,"../dispatcher/Dispatcher":13,"../helpers/api":15}],3:[function(require,module,exports){
-"use strict";
-var React = require("react");
-var Header = require("./common/Header")
+'use strict';
+
+var React = require('react');
+var Header = require('./common/Header');
+
 
 var App = React.createClass({displayName: "App",
-	render: function() {
+	render: function () {
 		return (
 			React.createElement("div", null, 
 				React.createElement(Header, null), 
@@ -66,15 +67,14 @@ var App = React.createClass({displayName: "App",
 
 module.exports = App;
 
-// props.children evaluates what child is selected by the url
-
 },{"./common/Header":6,"react":252}],4:[function(require,module,exports){
-"use strict";
+'use strict';
 
-var React = require("react");
+var React = require('react');
+
 
 var Home = React.createClass({displayName: "Home",
-	render: function() {
+	render: function () {
 		return (
 			React.createElement("div", {className: "jumbotron"}, 
 				React.createElement("h1", null, "Code School React App"), 
@@ -83,18 +83,21 @@ var Home = React.createClass({displayName: "Home",
 		);
 	}
 });
+
 module.exports = Home;
 
 },{"react":252}],5:[function(require,module,exports){
-"use strict";
-var React = require("react");
+'use strict';
+
+var React = require('react');
+
 
 var AboutPage = React.createClass({displayName: "AboutPage",
 	render: function() {
 		return (
 			React.createElement("div", null, 
 				React.createElement("h1", null, "Cool Stuff We Are Learning"), 
-				React.createElement("p", null, " We are going to do things with these technologies."), 
+				React.createElement("p", null, "We are going to do things with these technologies."), 
 				React.createElement("ul", null, 
 					React.createElement("li", null, "Gulp"), 
 					React.createElement("li", null, "React"), 
@@ -108,24 +111,26 @@ var AboutPage = React.createClass({displayName: "AboutPage",
 		);
 	}
 });
+
 module.exports = AboutPage;
 
 },{"react":252}],6:[function(require,module,exports){
-"use strict";
+'use strict';
 
-var React = require("react");
-var Link = require("react-router").Link; 
+var React = require('react');
+var Link = require('react-router').Link;
+
 
 var Header = React.createClass({displayName: "Header",
-	render: function() {
+	render: function () {
 		return (
-			React.createElement("div", {className: "navbar-inverse navbar-static-top"}, 
+			React.createElement("div", {className: "navbar navbar-default"}, 
 				React.createElement("div", {className: "container-fluid"}, 
 					React.createElement(Link, {to: "/", className: "navbar-brand"}, "Todo App"), 
 					React.createElement("ul", {className: "nav navbar-nav"}, 
 						React.createElement("li", null, React.createElement(Link, {to: "/"}, "Home")), 
 						React.createElement("li", null, React.createElement(Link, {to: "/about-page"}, "About")), 
-						React.createElement("li", null, React.createElement(Link, {to: "/todos-page"}, "Todo")), 
+						React.createElement("li", null, React.createElement(Link, {to: "/todos-page"}, "Todos")), 
 						React.createElement("li", null, React.createElement(Link, {to: "/manage-todo"}, "Add todo"))
 					)
 				)
@@ -133,19 +138,23 @@ var Header = React.createClass({displayName: "Header",
 		);
 	}
 });
+
 module.exports = Header;
 
 },{"react":252,"react-router":81}],7:[function(require,module,exports){
-"use strict";
+'use strict';
 
-var React = require("react");
+var React = require('react');
+
 
 var TextInput = React.createClass({displayName: "TextInput",
-	render: function() {
-		var wrapperClass = "form-group";
+	render: function () {
+		var wrapperClass = 'form-group';
+
 		if (this.props.error && this.props.error.length > 0) {
-			wrapperClass += " has-error";
+			wrapperClass += ' ' + 'has-error';
 		}
+
 		return (
 			React.createElement("div", {className: wrapperClass}, 
 				React.createElement("label", {htmlFor: this.props.name}, this.props.name), 
@@ -157,32 +166,31 @@ var TextInput = React.createClass({displayName: "TextInput",
 						ref: this.props.name, 
 						value: this.props.value, 
 						onChange: this.props.saveTodoState}
-					), 		
-					React.createElement("div", {className: "text-danger"}, this.props.error)
+					), 
+					React.createElement("div", null, this.props.error)
 				)
 			)
 		);
 	}
 });
+
 module.exports = TextInput;
 
 },{"react":252}],8:[function(require,module,exports){
-"use strict";
+'use strict';
 
-var React = require("react");
-var TodoForm = require("./TodoForm");
-var todoApi = require("../../mockApi/todoApi");
-var toastr = require("toastr");
-var browserHistory = require("react-router").browserHistory;
-var todoActionCreator = require("../../actions/todoActionCreator");
-
+var React = require('react');
+var TodoForm = require('./TodoForm');
+var TodoActionCreator = require('../../actions/todoActionCreator');
+var todoApi = require('../../mockApi/todoApi');
+var toastr = require('toastr');
+var browserHistory = require('react-router').browserHistory;
 
 var ManageTodoPage = React.createClass({displayName: "ManageTodoPage",
-	getInitialState: function() {
-		return {
-			errors: {
 
-			},
+	getInitialState: function () {
+		return {
+			errors: {},
 			todo: {
 				id: '',
 				title: '',
@@ -191,28 +199,33 @@ var ManageTodoPage = React.createClass({displayName: "ManageTodoPage",
 		}
 	},
 
-	saveTodoState: function(event) {
+	saveTodoState: function (event) {
 		var field = event.target.name;
 		var value = event.target.value;
 		var newTodo = Object.assign({}, this.state.todo);
-		
+
+		// sort of like todo.title or todo.description
 		newTodo[field] = value;
 
 		this.setState({
 			todo: newTodo
 		});
 
-		
 	},
 
 	saveTodo: function (event) {
 		event.preventDefault();
+
 		if (!this.todoFormIsValid()) {
 			return;
 		}
-		todoActionCreator.createTodo(this.state.todo)
-		toastr.success("Todo saved!");
-		browserHistory.push('/todos-page')
+
+		TodoActionCreator.createTodo(this.state.todo);
+		// todoApi.saveTodo(this.state.todo);
+		
+		toastr.success('Todo saved!');
+		browserHistory.push('/todos-page');
+
 	},
 
 	todoFormIsValid: function () {
@@ -220,19 +233,25 @@ var ManageTodoPage = React.createClass({displayName: "ManageTodoPage",
 		var newErrors = {};
 
 		if (this.state.todo.title.length < 3) {
-			newErrors.title = "Title cannot be less than 3 characters...duh";
+			newErrors.title = 'Title cannot be less than 3 characters...silly goose';
 			formIsValid = false;
-		};
-		if (this.state.todo.description.length < 10) {
-			newErrors.description = "Description cannot be less than 10 characters...duh";
+		}
+
+		if (this.state.todo.description.length < 3) {
+			newErrors.description = 'Description cannot be less than 3 characters...crazy pants';
 			formIsValid = false;
-		};
+		}
+
 		this.setState({
 			errors: newErrors
 		});
+
 		return formIsValid;
+
 	},
-	render: function() {
+
+	render: function () {
+		console.log(this.state.todo);
 		return (
 			React.createElement("div", null, 
 				React.createElement("h2", null, "Manage Todo"), 
@@ -250,12 +269,15 @@ var ManageTodoPage = React.createClass({displayName: "ManageTodoPage",
 module.exports = ManageTodoPage;
 
 },{"../../actions/todoActionCreator":2,"../../mockApi/todoApi":17,"./TodoForm":9,"react":252,"react-router":81,"toastr":254}],9:[function(require,module,exports){
-"use strict";
-var React = require("react");
-var TextInput = require("../common/TextInput");
+'use strict';
+
+var React = require('react');
+var TextInput = require('../common/TextInput');
+
 
 var TodoForm = React.createClass({displayName: "TodoForm",
-	render: function() {
+	render: function () {
+		console.log(this.props.errors);
 		return (
 			React.createElement("form", {onSubmit: this.props.saveTodo}, 
 				React.createElement("h3", null, "Todo Form"), 
@@ -265,7 +287,7 @@ var TodoForm = React.createClass({displayName: "TodoForm",
 					value: this.props.todo.title, 
 					saveTodoState: this.props.saveTodoState, 
 					error: this.props.errors.title}
-				 ), 
+				), 
 				React.createElement(TextInput, {
 					name: "description", 
 					placeholder: "Description", 
@@ -273,7 +295,7 @@ var TodoForm = React.createClass({displayName: "TodoForm",
 					saveTodoState: this.props.saveTodoState, 
 					error: this.props.errors.description}
 				), 
-				React.createElement("input", {type: "submit", value: "Save Todo", className: "btn btn-success"})
+				React.createElement("input", {type: "submit", value: "Save Todo", className: "btn btn-success btn-lg"})
 			)
 		);
 	}
@@ -282,41 +304,29 @@ var TodoForm = React.createClass({displayName: "TodoForm",
 module.exports = TodoForm;
 
 },{"../common/TextInput":7,"react":252}],10:[function(require,module,exports){
-"use strict";
+'use strict';
 
-var React = require("react");
-var todoApi = require("../../mockApi/todoApi");
-var toastr = require("toastr")
-var hashHistory = require("react-router").hashHistory;
+var React = require('react');
+var todoApi = require('../../mockApi/todoApi');
+var toastr = require('toastr');
+
 
 var TodoList = React.createClass({displayName: "TodoList",
+
 	deleteTodo: function (todoId, event) {
 		event.preventDefault();
 		todoApi.deleteTodo(todoId);
-		toastr.success("Todo deleted!"); 
-		// slade the sliper wants to use it for his own diabolicol ways
-		// rekt.slade("sliper")
+		toastr.success('Todo deleted!');
 	},
-	log: function () {
-		console.log(this.props.todos)
-	},
-	render: function() {
-		var checkForTodos = function () {
-			if (this.props.todos.length > 0) {
-				return this.props.todos.map(createTodoRow, this);
-			}  else {
-				return (
-					React.createElement("tr", null, React.createElement("td", null, "No Todos"))
-				)
-			}
-		}.bind(this);
+
+	render: function () {
 
 		var createTodoRow = function (todo) {
 			return (
 				React.createElement("tr", {key: todo.id}, 
 					React.createElement("td", null, todo.title), 
 					React.createElement("td", null, todo.description), 
-					React.createElement("td", null, React.createElement("a", {onClick: this.deleteTodo.bind(this, todo.id), href: "#"}, "Delete"))
+					React.createElement("td", null, React.createElement("a", {href: "#", onClick: this.deleteTodo.bind(this, todo.id)}, "Delete"))
 				)
 			);
 		};
@@ -326,11 +336,11 @@ var TodoList = React.createClass({displayName: "TodoList",
 					React.createElement("tr", null, 
 						React.createElement("th", null, "Title"), 
 						React.createElement("th", null, "Description"), 
-						React.createElement("th", null, "Edit")
+						React.createElement("th", null)
 					)
 				), 
 				React.createElement("tbody", null, 
-					checkForTodos()
+					this.props.todos.map(createTodoRow, this)
 				)
 			)
 		);
@@ -339,43 +349,45 @@ var TodoList = React.createClass({displayName: "TodoList",
 
 module.exports = TodoList;
 
-},{"../../mockApi/todoApi":17,"react":252,"react-router":81,"toastr":254}],11:[function(require,module,exports){
-"use strict";
+},{"../../mockApi/todoApi":17,"react":252,"toastr":254}],11:[function(require,module,exports){
+'use strict';
 
-var React = require("react");
-var todoApi = require("../../mockApi/todoApi");
-var TodoList = require("./TodoList");
-var Link = require("react-router").Link;
-var TodoStore = require("../../stores/todoStore")
+var React = require('react');
+var TodoList = require('./TodoList');
+var Link = require('react-router').Link;
+var TodoStore = require('../../stores/todoStore');
 
 
 var Todos = React.createClass({displayName: "Todos",
-	getInitialState: function() {
+
+	getInitialState: function () {
 		return {
 			todos: TodoStore.getAllTodos()
 		}
 	},
 
-	componentWillMount: function() {
-		TodoStore.addChangeListener(this.onChange)
+	componentWillMount: function () {
+		TodoStore.addChangeListener(this.onChange);
 	},
-	componentWillUnmount: function() {
-		TodoStore.removeChangeListener(this.onChange)
+
+	componentWillUnmount: function () {
+		TodoStore.removeChangeListener(this.onChange);
 	},
+
 	onChange: function () {
 		this.setState({
 			todos: TodoStore.getAllTodos()
 		});
 	},
 
-	render: function() {
+	render: function () {
 		return (
 			React.createElement("div", null, 
 				React.createElement("h2", null, "Things we need todo"), 
 				React.createElement(Link, {className: "btn btn-success btn-sm", to: "/manage-todo"}, "Add todo"), 
 				React.createElement(TodoList, {
 					todos: this.state.todos}
-				 )
+				)
 			)
 		);
 	}
@@ -383,92 +395,87 @@ var Todos = React.createClass({displayName: "Todos",
 
 module.exports = Todos;
 
-},{"../../mockApi/todoApi":17,"../../stores/todoStore":20,"./TodoList":10,"react":252,"react-router":81}],12:[function(require,module,exports){
+},{"../../stores/todoStore":20,"./TodoList":10,"react":252,"react-router":81}],12:[function(require,module,exports){
 'use strict';
 
 module.exports = {
+	INITIALIZE: 'initialize',
 	CREATE_TODO: 'create todo',
 	UPDATE_TODO: 'update todo',
-	DELETE_TODO: 'delete todo',
-	INITIALIZE: 'initialize'
+	DELETE_TODO: 'delete todo'
 };
 
 },{}],13:[function(require,module,exports){
 'use strict';
 
-var Dispatcher = require("flux").Dispatcher;
+var Dispatcher = require('flux').Dispatcher;
 
 module.exports = new Dispatcher();
-// singleton pattern
 
 },{"flux":26}],14:[function(require,module,exports){
+'use strict';
+
 var $ = require('jquery');
 
-var ajax = function(url, data, type) {
+var ajax = function (url, data, type) {
 	var method = type || 'POST';
+
 	return $.ajax({
-		url: 'http://localhost:8999' + url,
+		url: 'http://localhost:9005' + url,
 		datatype: 'json',
 		contentType: 'application/json',
 		type: method,
 		data: JSON.stringify(data)
-	})
-}	
+	});
+};
 
 module.exports = ajax;
 
 },{"jquery":46}],15:[function(require,module,exports){
 'use strict';
 
-var ajax = require('./ajax.js');
+var ajax = require('./ajax');
 
 module.exports = {
 	getAllTodos: getAllTodos,
-	createTodo: createTodo,
+	createTodo: createTodo
 }
 
-function createTodo(todo) {
-	var url = "/todos";
+function getAllTodos () {
+	var url = '/todos';
+	var data = {};
+	var type = 'GET';
+
+	return ajax(url, data, type);
+}
+
+function createTodo (todo) {
+	var url = '/todos';
 	var data = todo;
 
 	return ajax(url, data);
 }
 
-function getAllTodos() {
-	var url = "/todos";
-	var data = {};
-	var type = "GET";
-	return ajax(url, data, type);
-}
+},{"./ajax":14}],16:[function(require,module,exports){
+'use strict';
 
-},{"./ajax.js":14}],16:[function(require,module,exports){
-"use strict";
-// Links
 var $, jQuery;
-$ = jQuery = require("jquery");
-var React = require("react");
-var ReactDOM = require("react-dom");
-var browserHistory = require("react-router").browserHistory;
-//components
-var Router = require("react-router").Router;
-var routes = require("./routes");
-var initializeActionCreator = require("./actions/initializeActionCreator");
+$ = jQuery = require('jquery');
+var React = require('react');
+var ReactDOM = require('react-dom');
+var Router = require('react-router').Router;
+var browserHistory = require('react-router').browserHistory;
+var routes = require('./routes');
+var InitializeActionCreator = require('./actions/initializeActionCreator');
 
-initializeActionCreator.initializeApp();
+InitializeActionCreator.initializeApp();
 
 ReactDOM.render(
 	React.createElement(Router, {history: browserHistory}, 
 		routes
 	)
-	, document.getElementById("app"));
-// slade is the best person on earth and when the other people decide they want to kill him they have the right to try but slade is to buff for them so they probably would get ra*ekt
-
-// Rule 1: Has to have render method
-// Rule 2: can only have one top level tag
-// Rule 3: No mutating data directly/So we have to change state
-// UI and UX
-
-// Numbers/Letters on the end make it so you can go backwards and forwards
+	, document.getElementById('app')
+);
 
 },{"./actions/initializeActionCreator":1,"./routes":19,"jquery":46,"react":252,"react-dom":51,"react-router":81}],17:[function(require,module,exports){
 "use strict";
@@ -563,16 +570,16 @@ module.exports = {
 };
 
 },{}],19:[function(require,module,exports){
-"use strict";
+'use strict';
 
-var React = require("react");
-var Route = require("react-router").Route;
-var IndexRoute = require("react-router").IndexRoute;
-var AboutPage = require("./components/about/About");
-var HomePage = require("./components/HomePage");
-var App = require("./components/App");
-var TodoPage = require("./components/todos/TodoPage");
-var ManageTodoPage = require("./components/todos/ManageTodoPage");
+var React = require('react');
+var Route = require('react-router').Route;
+var IndexRoute = require('react-router').IndexRoute;
+var HomePage = require('./components/HomePage');
+var AboutPage = require('./components/about/About');
+var App = require('./components/App');
+var TodoPage = require('./components/todos/TodoPage');
+var ManageTodoPage = require('./components/todos/ManageTodoPage');
 
 var routes = (
 	React.createElement(Route, {path: "/", component: App}, 
@@ -581,42 +588,44 @@ var routes = (
 		React.createElement(Route, {path: "/todos-page", component: TodoPage}), 
 		React.createElement(Route, {path: "/manage-todo", component: ManageTodoPage})
 	)
+);
 
-); 
 module.exports = routes;
-
-// I beleive IndexRoute is like a default component
 
 },{"./components/App":3,"./components/HomePage":4,"./components/about/About":5,"./components/todos/ManageTodoPage":8,"./components/todos/TodoPage":11,"react":252,"react-router":81}],20:[function(require,module,exports){
 'use strict';
 
 var Dispatcher = require('../dispatcher/Dispatcher');
 var ActionTypes = require('../constants/actionTypes');
-var EventEmitter = require("events");
+var EventEmitter = require('events');
 var CHANGE_EVENT = 'change';
 
 var _todos = [];
 
 var TodoStore = Object.assign({}, EventEmitter.prototype, {
+
 	addChangeListener: function (callback) {
 		this.on(CHANGE_EVENT, callback);
 	},
+
 	removeChangeListener: function (callback) {
 		this.removeListener(CHANGE_EVENT, callback);
 	},
 
 	emitChange: function () {
-		this.emit(CHANGE_EVENT)
+		this.emit(CHANGE_EVENT);
 	},
+
 	getAllTodos: function () {
 		return _todos;
 	}
-})
+
+});
 
 Dispatcher.register(function (action) {
 	switch (action.actionType) {
 		case ActionTypes.INITIALIZE:
-			_todos = action.initialData.todos
+			_todos = action.initialData.todos;
 			TodoStore.emitChange();
 			break;
 		case ActionTypes.CREATE_TODO:
@@ -624,19 +633,12 @@ Dispatcher.register(function (action) {
 			_todos.push(action.todo);
 			TodoStore.emitChange();
 			break;
-		// case ActionTypes.UPDATE_TODO:
-		// break;
-		default: 
+		default:
 			// do nothing
 	}
 });
 
 module.exports = TodoStore;
-// EventEmitter is an object and you are getting the key prototype 
-// and adding the object inside that to our object so we can use the functions in it
-
-
-// slade is overappedaged because he has multiple somethings sticking out
 
 },{"../constants/actionTypes":12,"../dispatcher/Dispatcher":13,"events":24}],21:[function(require,module,exports){
 var pSlice = Array.prototype.slice;
