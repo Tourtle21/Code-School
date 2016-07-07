@@ -4,8 +4,8 @@ var React = require('react');
 var TodoForm = require('./TodoForm');
 var TodoActionCreator = require('../../actions/todoActionCreator');
 var todoApi = require('../../mockApi/todoApi');
-var toastr = require('toastr');
 var browserHistory = require('react-router').browserHistory;
+var TodoStore = require('../../stores/todoStore')
 
 var ManageTodoPage = React.createClass({
 
@@ -13,10 +13,18 @@ var ManageTodoPage = React.createClass({
 		return {
 			errors: {},
 			todo: {
-				id: '',
 				title: '',
 				description: ''
 			}
+		}
+	},
+
+	componentWillMount: function () {
+		var todoId = this.props.params.id;
+		if (todoId) {	
+			this.setState({
+				todo: TodoStore.getTodoById(todoId)
+			})
 		}
 	},
 
@@ -40,11 +48,13 @@ var ManageTodoPage = React.createClass({
 		if (!this.todoFormIsValid()) {
 			return;
 		}
-
-		TodoActionCreator.createTodo(this.state.todo);
+		if (this.state.todo._id) {
+			TodoActionCreator.updateTodo(this.state.todo);
+		} else {
+			TodoActionCreator.createTodo(this.state.todo);
+		}
 		// todoApi.saveTodo(this.state.todo);
 		
-		toastr.success('Todo saved!');
 		browserHistory.push('/todos-page');
 
 	},
@@ -72,7 +82,6 @@ var ManageTodoPage = React.createClass({
 	},
 
 	render: function () {
-		console.log(this.state.todo);
 		return (
 			<div>
 				<h2>Manage Todo</h2>

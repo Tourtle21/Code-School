@@ -15,6 +15,7 @@ var routes = (
 		<Route path="/about-page" component={AboutPage} />
 		<Route path="/todos-page" component={TodoPage} />
 		<Route path="/manage-todo" component={ManageTodoPage} />
+		<Route path="/manage-todo/:id" component={ManageTodoPage} />
 	</Route>
 );
 

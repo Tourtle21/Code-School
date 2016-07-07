@@ -1,7 +1,7 @@
 'use strict';
 
 var Dispatcher = require('../dispatcher/Dispatcher');
-var API = require('..helpers/api');
+var API = require('../helpers/api');
 var ActionTypes = require('../constants/actionTypes');
 
 var InitializeActionCreator = {
@@ -10,7 +10,7 @@ var InitializeActionCreator = {
 		var todosPromise = API.getAllTodos();
 
 		todosPromise
-			.then(function () {
+			.then(function (todos) {
 				Dispatcher.dispatch({
 					actionType: ActionTypes.INITIALIZE,
 					initialData: {

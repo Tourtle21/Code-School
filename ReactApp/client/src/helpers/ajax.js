@@ -6,7 +6,7 @@ var ajax = function (url, data, type) {
 	var method = type || 'POST';
 
 	return $.ajax({
-		url: 'http://localhost:9005' + url,
+		url: 'http://localhost:8021' + url,
 		datatype: 'json',
 		contentType: 'application/json',
 		type: method,

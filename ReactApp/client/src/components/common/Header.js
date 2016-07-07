@@ -7,7 +7,7 @@ var Link = require('react-router').Link;
 var Header = React.createClass({
 	render: function () {
 		return (
-			<div className="navbar navbar-default">
+			<div className="navbar-inverse navbar-static-top">
 				<div className="container-fluid">
 					<Link to="/" className="navbar-brand">Todo App</Link>
 					<ul className="nav navbar-nav">

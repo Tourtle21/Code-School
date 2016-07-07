@@ -38,9 +38,9 @@ app.all('*', function (req, res)
 	res.sendFile(path.join(__dirname, '/dist/index.html'))
 })
 
-app.listen(9005, function ()
+app.listen(8021, function ()
 {
-	console.log('Listening on localhost:9005')
+	console.log('Listening on localhost:8021')
 })
 
 
